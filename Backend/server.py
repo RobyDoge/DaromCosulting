@@ -1,9 +1,11 @@
 from flask import Flask, request, jsonify
 from flask_restful import Api, Resource
+from flask_cors import CORS
 from booking import BookingResource
 
 app = Flask('DaromConsultingServer')
 api = Api(app)
+CORS(app)
 
 
 api.add_resource(BookingResource, '/booking')

@@ -9,6 +9,14 @@ import { Textarea } from "@/components/ui/textarea"
 import { toast } from "@/hooks/use-toast"
 import { Toaster } from "@/components/ui/toaster"
 
+interface BookingData {
+  name: string;
+  email: string;
+  reason: string;
+}
+
+let server_adress:string = "http://localhost:5000/booking?"
+
 export default function Appointment() {
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -17,22 +25,50 @@ export default function Appointment() {
     setIsSubmitting(true)
 
     const formData = new FormData(event.currentTarget)
-    const data = {
-      name: formData.get('name'),
-      email: formData.get('email'),
-      reason: formData.get('reason'),
+    const data: BookingData = {
+      name: formData.get('name') as string,
+      email: formData.get('email') as string,
+      reason: formData.get('reason') as string,
     }
 
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000))
+    try {
+      // Convert the data object to URL parameters
+      const params = new URLSearchParams({
+        name: data.name,
+        email: data.email,
+        reason: data.reason
+      });
 
-    toast({
-      title: "Programare trimisă cu succes!",
-      description: "Te vom contacta în curând pentru confirmare.",
-    })
+      const response = await fetch(`${server_adress}${params.toString()}`, {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+        },
+      })
 
-    setIsSubmitting(false)
-    event.currentTarget.reset()
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Eroare la trimiterea programării');
+      }
+
+      const result = await response.json();
+      
+      toast({
+        title: "Programare trimisă cu succes!",
+        description: result.success,
+      })
+
+      // Reset the form
+      event.currentTarget.reset()
+    } catch (error) {
+      toast({
+        title: "Eroare!",
+        description: error instanceof Error ? error.message : "Nu am putut trimite programarea. Te rugăm să încerci din nou.",
+        variant: "destructive",
+      })
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -91,4 +127,3 @@ export default function Appointment() {
     </div>
   )
 }
-
