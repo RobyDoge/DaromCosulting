@@ -16,25 +16,40 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="ro">
+    <html lang="ro" className="antialiased">
       <body className={inter.className}>
-        <div className="min-h-screen flex flex-col">
-          <header className="border-b">
-            <nav className="container mx-auto px-4 h-16 flex items-center justify-between">
-              <Link href="/" className="text-xl font-bold hover:text-primary transition-colors">
+        <div className="relative min-h-screen flex flex-col">
+          <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+            <nav className="container h-16 flex items-center justify-between">
+              <Link 
+                href="/" 
+                className="text-xl font-bold tracking-tight hover:text-primary transition-colors"
+              >
                 Darom Consulting
               </Link>
               <div className="flex gap-6">
-                <Link href="/" className="hover:text-primary transition-colors">
+                <Link 
+                  href="/" 
+                  className="text-sm font-medium hover:text-primary transition-colors"
+                >
                   Acasă
                 </Link>
-                <Link href="/programare" className="hover:text-primary transition-colors">
+                <Link 
+                  href="/programare" 
+                  className="text-sm font-medium hover:text-primary transition-colors"
+                >
                   Programare
                 </Link>
-                <Link href="/recenzii" className="hover:text-primary transition-colors">
+                <Link 
+                  href="/recenzii" 
+                  className="text-sm font-medium hover:text-primary transition-colors"
+                >
                   Recenzii
                 </Link>
-                <Link href="/contact" className="hover:text-primary transition-colors">
+                <Link 
+                  href="/contact" 
+                  className="text-sm font-medium hover:text-primary transition-colors"
+                >
                   Contact
                 </Link>
               </div>
@@ -43,8 +58,8 @@ export default function RootLayout({
           <main className="flex-1">
             {children}
           </main>
-          <footer className="border-t">
-            <div className="container mx-auto px-4 h-16 flex items-center justify-center">
+          <footer className="border-t py-6 md:py-0">
+            <div className="container h-16 flex items-center justify-center">
               <p className="text-sm text-muted-foreground">
                 © 2024 Darom Consulting. Toate drepturile rezervate.
               </p>

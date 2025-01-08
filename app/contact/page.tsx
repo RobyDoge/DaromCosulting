@@ -16,11 +16,11 @@ export default function Contact() {
             <CardContent className="space-y-4">
               <div className="flex items-center gap-3">
                 <MapPin className="h-5 w-5 text-muted-foreground" />
-                <p>Strada Afacerilor 123, Oraș, Țară</p>
+                <p>Strada Sergent Erou Mateescu Gheorghe 18, Ploiesti, Romania</p>
               </div>
               <div className="flex items-center gap-3">
                 <Phone className="h-5 w-5 text-muted-foreground" />
-                <p>+1 234 567 890</p>
+                <p>+40 712 345 678</p>
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="h-5 w-5 text-muted-foreground" />
@@ -35,7 +35,7 @@ export default function Contact() {
             </CardHeader>
             <CardContent className="space-y-2">
               <p>Luni - Vineri: 9:00 - 18:00</p>
-              <p>Sâmbătă: 10:00 - 16:00</p>
+              <p>Sâmbătă: Închis</p>
               <p>Duminică: Închis</p>
             </CardContent>
           </Card>
