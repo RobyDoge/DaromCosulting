@@ -58,8 +58,6 @@ export default function Appointment() {
         description: result.success,
       })
 
-      // Reset the form
-      event.currentTarget.reset()
     } catch (error) {
       toast({
         title: "Eroare!",

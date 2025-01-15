@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "test:e2e": "jest --config jest.config.js --testMatch '**/__tests__/e2e/*.test.[jt]s?(x)'"
   },
   "dependencies": {
     "@radix-ui/react-label": "^2.0.2",

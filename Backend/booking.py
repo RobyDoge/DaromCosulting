@@ -28,7 +28,7 @@ class Booking:
             'email': self.email,
             'reason': self.reason
         }
-        save_file = open("./Backend/database.txt", "w")  
+        save_file = open("./database.txt", "w")  
         json.dump(dict, save_file)
         save_file.close()
 
