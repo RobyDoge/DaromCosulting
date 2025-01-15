@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server'
+import {env} from '@/config/env'
 
 export async function GET() {
   try {
-    // You'll need to get this ID from Google My Business or Places API
-    const GOOGLE_PLACE_ID = 'YOUR_PLACE_ID' 
-    const API_KEY = process.env.GOOGLE_MAPS_API_KEY
+    const GOOGLE_PLACE_ID = env.GOOGLE_PLACE_ID
+    const API_KEY = env.API_KEY
 
     if (!API_KEY) {
       throw new Error('Google Maps API key is not configured')
@@ -37,6 +37,7 @@ export async function GET() {
       total: data.result.user_ratings_total
     })
   } catch (error) {
+    console.log('Error fetching reviews:', error)
     console.error('Error fetching reviews:', error)
     return NextResponse.json(
       { 

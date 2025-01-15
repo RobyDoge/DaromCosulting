@@ -1,15 +1,15 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Star, Loader2 } from 'lucide-react'
+import { Card, CardContent } from "@/components/ui/card"
+import { Star, Loader2, User } from 'lucide-react'
 
 interface Review {
   author_name: string
   rating: number
   relative_time_description: string
   text: string
-  profile_photo_url: string
+  profile_photo_url?: string
 }
 
 interface ReviewsResponse {
@@ -106,11 +106,21 @@ export default function Reviews() {
             <Card key={index}>
               <CardContent className="p-6">
                 <div className="flex items-start gap-4">
-                  <img
-                    src={review.profile_photo_url}
-                    alt={review.author_name}
-                    className="w-12 h-12 rounded-full"
-                  />
+                  {review.profile_photo_url ? (
+                    <img
+                      src={review.profile_photo_url || "/placeholder.svg"}
+                      alt={`${review.author_name}'s profile`}
+                      className="w-12 h-12 rounded-full object-cover"
+                      onError={(e) => {
+                        const target = e.target as HTMLImageElement;
+                        target.src = `/placeholder.svg?height=48&width=48`;
+                      }}
+                    />
+                  ) : (
+                    <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center">
+                      <User className="w-6 h-6 text-muted-foreground" />
+                    </div>
+                  )}
                   <div className="flex-1">
                     <div className="flex justify-between items-start">
                       <div>
