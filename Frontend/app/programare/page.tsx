@@ -8,15 +8,38 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "@/hooks/use-toast"
 import { Toaster } from "@/components/ui/toaster"
+import * as AWS from 'aws-sdk';
+import { get } from 'http'
 
+const s3 = new AWS.S3({ region: 'eu-north-1' }); 
 interface BookingData {
   name: string;
   email: string;
   reason: string;
 }
 
-let server_adress:string = "http://localhost:5000/booking?"
 
+
+async function getBackendIP() {
+  const params = {
+    Bucket: 'darom-consulting', 
+    Key: 'Enviroment Variables.json'
+  };
+
+  try {
+    const data = await s3.getObject(params).promise();
+    if (!data.Body) {
+      throw new Error('S3 object Body is undefined');
+    }
+    const jsonData = JSON.parse(data.Body.toString('utf-8'));
+    return {
+      BACKEND_URL: jsonData.BACKEND_URL
+    };
+  } catch (err) {
+    console.error('Error getting object from S3:', err);
+    throw new Error('Failed to retrieve Google Maps API keys');
+  }
+}
 export default function Appointment() {
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -39,7 +62,8 @@ export default function Appointment() {
         reason: data.reason
       });
 
-      const response = await fetch(`${server_adress}${params.toString()}`, {
+      const { BACKEND_URL } = await getBackendIP();
+      const response = await fetch(`${BACKEND_URL}${params.toString()}`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
