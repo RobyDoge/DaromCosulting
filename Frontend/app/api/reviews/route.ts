@@ -1,5 +1,34 @@
 import { NextResponse } from 'next/server'
-import {env} from '@/config/env'
+
+
+const AWS = require('aws-sdk');
+const s3 = new AWS.S3();
+
+exports.handler = async (event) => {
+  const params = {
+    Bucket: 'your-bucket-name',
+    Key: 'your-object-key',
+    Expires: 60, // URL expires in 60 seconds
+  };
+
+  try {
+    const url = await s3.getSignedUrlPromise('getObject', params);
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ url }),
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      statusCode: 500,
+      body: 'Error generating pre-signed URL',
+    };
+  }
+};
+
+
+
+
 
 export async function GET() {
   try {
