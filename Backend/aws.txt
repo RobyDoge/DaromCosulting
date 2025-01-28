@@ -1,0 +1,3 @@
+cd DaromCosulting/Backend
+source venv/bin/activate
+python server.py
