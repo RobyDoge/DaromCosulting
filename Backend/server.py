@@ -10,15 +10,10 @@ CORS(app)
 
 @app.route('/booking', methods=['POST'])
 def booking():
-    name = request.args.get('name')
-    email = request.args.get('email')
-    reason = request.args.get('reason')
-
-    if name is None or email is None or reason is None:
+    data = request.get_json()
+    booking = Booking(data['name'], data['email'], data['reason'])
+    if save_booking(booking)==400:
         return {'error': 'Missing required fields'}, 400
-
-    booking = Booking(name, email, reason)
-    save_booking(booking)
     return {'success': 'Booking saved'}, 200
 
 if __name__ == '__main__':
