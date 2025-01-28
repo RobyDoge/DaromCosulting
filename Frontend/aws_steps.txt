@@ -1,0 +1,2 @@
+cd app/DaromCosulting/Frontend
+npm run dev
