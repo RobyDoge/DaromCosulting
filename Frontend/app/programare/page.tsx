@@ -9,16 +9,14 @@ import { Textarea } from "@/components/ui/textarea"
 import { toast } from "@/hooks/use-toast"
 import { Toaster } from "@/components/ui/toaster"
 import * as AWS from 'aws-sdk';
-import { get } from 'http'
 
 const s3 = new AWS.S3({ region: 'eu-north-1' }); 
-interface BookingData {
+
+interface Booking {
   name: string;
   email: string;
   reason: string;
 }
-
-
 
 async function getBackendIP() {
   const params = {
@@ -27,19 +25,23 @@ async function getBackendIP() {
   };
 
   try {
+    console.log('Attempting to fetch object with params:', params);
     const data = await s3.getObject(params).promise();
+    console.log('Raw data from S3:', data);
     if (!data.Body) {
       throw new Error('S3 object Body is undefined');
     }
     const jsonData = JSON.parse(data.Body.toString('utf-8'));
+    console.log('Parsed JSON data:', jsonData);
     return {
       BACKEND_URL: jsonData.BACKEND_URL
     };
   } catch (err) {
     console.error('Error getting object from S3:', err);
-    throw new Error('Failed to retrieve Google Maps API keys');
+    throw new Error('Failed to retrieve Backend URL');
   }
 }
+
 export default function Appointment() {
   const [isSubmitting, setIsSubmitting] = useState(false)
 
@@ -48,26 +50,24 @@ export default function Appointment() {
     setIsSubmitting(true)
 
     const formData = new FormData(event.currentTarget)
-    const data: BookingData = {
+    const data: Booking = {
       name: formData.get('name') as string,
       email: formData.get('email') as string,
       reason: formData.get('reason') as string,
     }
 
     try {
-      // Convert the data object to URL parameters
-      const params = new URLSearchParams({
-        name: data.name,
-        email: data.email,
-        reason: data.reason
-      });
-
+      // Retrieve the backend URL from S3
       const { BACKEND_URL } = await getBackendIP();
-      const response = await fetch(`${BACKEND_URL}${params.toString()}`, {
+      
+      // Make a POST request with JSON data
+      const response = await fetch(`${BACKEND_URL}/booking`, {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
+          'Content-Type': 'application/json',
         },
+        body: JSON.stringify(data), // Send data as JSON
       })
 
       if (!response.ok) {

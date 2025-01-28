@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server'
 
 import * as AWS from 'aws-sdk';
 
-const s3 = new AWS.S3({ region: 'eu-north-1' }); 
+const s3 = new AWS.S3({ region: 'eu-north-1' });
 
 async function getGoogleMapsAPIKeys() {
   const params = {
@@ -13,6 +13,7 @@ async function getGoogleMapsAPIKeys() {
 
   try {
     const data = await s3.getObject(params).promise();
+
     if (!data.Body) {
       throw new Error('S3 object Body is undefined');
     }
@@ -22,19 +23,17 @@ async function getGoogleMapsAPIKeys() {
       API_KEY: jsonData.API_KEY
     };
   } catch (err) {
-    console.error('Error getting object from S3:', err);
     throw new Error('Failed to retrieve Google Maps API keys');
   }
 }
 
+
 export async function GET() {
   try {
     const { GOOGLE_PLACE_ID, API_KEY } = await getGoogleMapsAPIKeys();
-
     if (!API_KEY) {
       throw new Error('Google Maps API key is not configured');
     }
-
     const response = await fetch(
       `https://maps.googleapis.com/maps/api/place/details/json?` +
         `place_id=${GOOGLE_PLACE_ID}` +
