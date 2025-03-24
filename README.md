@@ -8,23 +8,18 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 - **React**: A JavaScript library for building user interfaces.
 - **React DOM**: A package that provides DOM-specific methods for React.
 - **Tailwind**: A utility-first CSS framework for rapidly building custom user interfaces.
-- **Jest**: A package that provides unit testing.
-- **PlayWright**: A package that provides end-to-end testing.
 ### Getting Started
 
 First, run the development server:
 
 ```bash
-npm install next@latest react@latest react-dom@latest
-npm install jest@latest
-npm audit fix --force 
-
+npm install
+npm audit
+npm audit fix # Try without --force first
 npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-## Backend
 
 ## Backend
 
