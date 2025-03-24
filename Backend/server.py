@@ -7,7 +7,7 @@ app = Flask('DaromConsultingServer')
 api = Api(app)
 CORS(app)
 
-
+#TODO: After booking a mail shoudl be send to the user and also to the admin
 @app.route('/booking', methods=['POST'])
 def booking():
     data = request.get_json()
