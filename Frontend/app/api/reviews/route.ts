@@ -3,7 +3,12 @@ import { NextResponse } from 'next/server'
 
 import * as AWS from 'aws-sdk';
 
-const s3 = new AWS.S3({ region: 'eu-north-1' });
+const s3 = new AWS.S3({ region: 'eu-north-1' ,
+  accessKeyId: 'YOUR_KEY',
+  secretAccessKey: 'YOUR_KEY',
+
+}); 
+
 
 async function getGoogleMapsAPIKeys() {
   const params = {

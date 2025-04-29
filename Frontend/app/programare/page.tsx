@@ -10,7 +10,11 @@ import { toast } from "@/hooks/use-toast"
 import { Toaster } from "@/components/ui/toaster"
 import * as AWS from 'aws-sdk';
 
-const s3 = new AWS.S3({ region: 'eu-north-1' }); 
+const s3 = new AWS.S3({ region: 'eu-north-1' ,
+  accessKeyId: 'YOUR_KEY',
+  secretAccessKey: 'YOUR_KEY',
+
+}); 
 
 interface Booking {
   name: string;
